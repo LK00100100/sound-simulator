@@ -120,6 +120,9 @@ function createSoundBox(audioName) {
     soundBox.innerHTML += `<br>⏱️ timer: ${timerSeconds} seconds`;
     soundBox.innerHTML += `<br>🎲 hit chance : ${hitChance}%`;
 
+    const audioNameCss = audioName.replace(" ", "-");
+    soundBox.classList.add(audioNameCss);
+
     //set audio
     const audioElem = new Audio(getAudioPath(audioName));
     audioElem.onended = function () {

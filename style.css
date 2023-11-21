@@ -20,6 +20,20 @@
     padding: 20px;
 }
 
+
+.slack-message {
+    background-color: purple;
+}
+
+.skype-call {
+    background-color: lightskyblue;
+}
+
+.ios-alarm {
+    background-color: white;
+}
+
+/** overrides all background colors. **/
 .playing {
     background-color: lightgreen !important;
 }
