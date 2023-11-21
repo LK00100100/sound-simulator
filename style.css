@@ -1,0 +1,25 @@
+#sounds {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.soundbox {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 25%;
+    min-width: 100px;
+    max-width: 200px;
+    height: 100px;
+
+    background-color: lightgray;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    margin: 20px;
+    padding: 20px;
+}
+
+.playing {
+    background-color: lightgreen !important;
+}
