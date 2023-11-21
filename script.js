@@ -97,13 +97,13 @@ function getSelectedAudioValue() {
 function getAudioPath(audioName) {
     switch (audioName) {
         case "slack message":
-            return "/audio/slack-message.wav";
+            return "audio/slack-message.wav";
         case "skype call":
-            return "/audio/skype-incoming.mp3";
+            return "audio/skype-incoming.mp3";
         case "ios alarm":
-            return "/audio/iphone-alarm-sound.mp3";
+            return "audio/iphone-alarm-sound.mp3";
         case "car horn":
-            return "/audio/car-horn-6408.mp3";
+            return "audio/car-horn-6408.mp3";
         default:
             throw new Error("huh?");
     }
