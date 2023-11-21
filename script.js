@@ -124,6 +124,7 @@ function createSoundBox(audioName) {
     soundBox.innerHTML = `🔊 <b>${audioName}</b>`;
     soundBox.innerHTML += `<br>⏱️ timer: ${timerSeconds} seconds`;
     soundBox.innerHTML += `<br>🎲 hit chance : ${hitChance}%`;
+    soundBox.innerHTML += `<br><br>`;
 
     const audioNameCss = audioName.replace(" ", "-");
     soundBox.classList.add(audioNameCss);
@@ -152,6 +153,17 @@ function createSoundBox(audioName) {
 
     console.log("interval added:" + intervalId)
     soundBox.id = `soundBox-${intervalId}`;
+
+    //add x-close button
+    const xButton = document.createElement("button");
+    xButton.innerHTML = "❌";
+    xButton.onclick = () => {
+        clearInterval(intervalId);
+        audioElem.pause();
+
+        soundBox.parentElement.removeChild(soundBox);
+    };
+    soundBox.appendChild(xButton);
 
     return soundBox;
 }
