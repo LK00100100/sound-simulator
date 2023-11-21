@@ -33,6 +33,10 @@
     background-color: white;
 }
 
+.car-horn {
+    background-color: gray;
+}
+
 /** overrides all background colors. **/
 .playing {
     background-color: lightgreen !important;

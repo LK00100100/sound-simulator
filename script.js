@@ -25,6 +25,9 @@ function initSoundBoxes() {
 
     //ios sounds
     soundsDiv.appendChild(createSoundBox("ios alarm"));
+
+    //car horn sounds
+    soundsDiv.appendChild(createSoundBox("car horn"));
 }
 
 function clickPlay() {
@@ -99,6 +102,8 @@ function getAudioPath(audioName) {
             return "/audio/skype-incoming.mp3";
         case "ios alarm":
             return "/audio/iphone-alarm-sound.mp3";
+        case "car horn":
+            return "/audio/car-horn-6408.mp3";
         default:
             throw new Error("huh?");
     }
