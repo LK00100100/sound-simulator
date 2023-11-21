@@ -28,11 +28,33 @@ function clickStop() {
 }
 
 function clickAddSound() {
-    createSoundBox();
+    const soundsDiv = document.getElementById("sounds");
+
+    const soundBox = createSoundBox();
+    soundsDiv.appendChild(soundBox);
 }
 
-function createSoundBox() {
+function clickRemoveSound() {
+    const soundsDiv = document.getElementById("sounds");
 
+    if (soundsDiv.children.length == 0)
+        return;
+
+    const lastChild = soundsDiv.lastChild;
+    const lastChildId = lastChild.id;
+    const intervalId = Number.parseInt(lastChildId.substring(lastChildId.indexOf("-") + 1));
+
+    clearInterval(intervalId);
+
+    soundsDiv.removeChild(lastChild);
+    console.log("interval removed:" + intervalId)
+}
+
+/**
+ * create a sound box and assigns a sound.
+ * @returns 
+ */
+function createSoundBox() {
     const timerSeconds = getRandomInt(10) + 1;
     const hitChance = getRandomInt(100) + 1;
 
@@ -48,11 +70,11 @@ function createSoundBox() {
         soundBox.classList.remove("playing");
     };
 
-    setInterval(() => {
+    const intervalId = setInterval(() => {
         if (!isPlay)
             return;
 
-        let diceRoll = getRandomInt(100);
+        const diceRoll = getRandomInt(100);
 
         if (diceRoll > hitChance)
             return;
@@ -61,6 +83,9 @@ function createSoundBox() {
         soundBox.classList.add("playing");
 
     }, timerSeconds * 1000);
+
+    console.log("interval added:" + intervalId)
+    soundBox.id = `soundBox-${intervalId}`;
 
     return soundBox;
 }
