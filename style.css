@@ -10,7 +10,8 @@
     flex-basis: 25%;
     min-width: 100px;
     max-width: 200px;
-    height: 100px;
+    min-height: 60px;
+    max-height: 115px;
 
     background-color: lightgray;
     border-color: black;
@@ -40,4 +41,8 @@
 /** overrides all background colors. **/
 .playing {
     background-color: lightgreen !important;
+}
+
+.xbtn {
+    float: right;
 }

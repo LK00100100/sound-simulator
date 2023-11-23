@@ -115,7 +115,7 @@ function getAudioPath(audioName) {
  * @returns 
  */
 function createSoundBox(audioName) {
-    const timerSeconds = getRandomInt(10) + 1;
+    const timerSeconds = (getRandomInt(30) + 1) / 2; //up to 15 seconds (.5 second intervals)
     const hitChance = getRandomInt(100) + 1;
 
     const soundBox = document.createElement("div");
@@ -156,6 +156,7 @@ function createSoundBox(audioName) {
 
     //add x-close button
     const xButton = document.createElement("button");
+    xButton.className = "xbtn";
     xButton.innerHTML = "❌";
     xButton.onclick = () => {
         clearInterval(intervalId);
@@ -163,7 +164,7 @@ function createSoundBox(audioName) {
 
         soundBox.parentElement.removeChild(soundBox);
     };
-    soundBox.appendChild(xButton);
+    soundBox.prepend(xButton);
 
     return soundBox;
 }
