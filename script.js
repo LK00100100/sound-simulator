@@ -115,7 +115,7 @@ function getAudioPath(audioName) {
  * @returns 
  */
 function createSoundBox(audioName) {
-    const timerSeconds = (getRandomInt(30) + 1) / 2; //up to 15 seconds (.5 second intervals)
+    const timerSeconds = (getRandomInt(150) + 1) / 10; //up to 15 seconds (.1 second intervals)
     const hitChance = getRandomInt(100) + 1;
 
     const soundBox = document.createElement("div");
