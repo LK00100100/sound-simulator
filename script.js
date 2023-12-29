@@ -5,31 +5,45 @@ let isPlay = false;
 function onload() {
     console.log("page loaded");
 
-    initSoundBoxes();
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.size == 0) {
+        initSoundBoxes();
+        return;
+    }
+
+    //init sound boxes with query string
+    const soundsDiv = document.getElementById("sounds");
+    for (let [audioName, count] of searchParams) {
+        for (let i = 0; i < count; i++) {
+            const soundBox = createSoundBox(audioName);
+            soundsDiv.appendChild(soundBox);
+        }
+    }
+
 }
 
-const soundboxCounts = new Map();   //sound-name, count
+const soundboxCounts = new Map();   //sound-name (such as "slack-noise"), count (int)
 
 function initSoundBoxes() {
     const soundsDiv = document.getElementById("sounds");
 
     //slack sounds
     for (let i = 0; i < 5; i++) {
-        const soundBox = createSoundBox("slack message");
+        const soundBox = createSoundBox("slack-message");
         soundsDiv.appendChild(soundBox);
     }
 
     //skype sounds
     for (let i = 0; i < 2; i++) {
-        const soundBox = createSoundBox("skype call");
+        const soundBox = createSoundBox("skype-call");
         soundsDiv.appendChild(soundBox);
     }
 
     //ios sounds
-    soundsDiv.appendChild(createSoundBox("ios alarm"));
+    soundsDiv.appendChild(createSoundBox("ios-alarm"));
 
     //car horn sounds
-    soundsDiv.appendChild(createSoundBox("car horn"));
+    soundsDiv.appendChild(createSoundBox("car-horn"));
 }
 
 function clickPlay() {
@@ -105,13 +119,13 @@ function getSelectedAudioValue() {
  */
 function getAudioPath(audioName) {
     switch (audioName) {
-        case "slack message":
+        case "slack-message":
             return "audio/slack-message.wav";
-        case "skype call":
+        case "skype-call":
             return "audio/skype-incoming.mp3";
-        case "ios alarm":
+        case "ios-alarm":
             return "audio/iphone-alarm-sound.mp3";
-        case "car horn":
+        case "car-horn":
             return "audio/car-horn-6408.mp3";
         default:
             throw new Error("huh?");
@@ -135,8 +149,7 @@ function createSoundBox(audioName) {
     soundBox.innerHTML += `<br>🎲 hit chance : ${hitChance}%`;
     soundBox.innerHTML += `<br><br>`;
 
-    const audioNameCss = audioName.replace(" ", "-");
-    soundBox.classList.add(audioNameCss);
+    soundBox.classList.add(audioName);
 
     //set audio
     const audioElem = new Audio(getAudioPath(audioName));
@@ -174,16 +187,16 @@ function createSoundBox(audioName) {
         soundBox.parentElement.removeChild(soundBox);
 
         //adjust sounds count
-        const oldCount = soundboxCounts.get(audioNameCss);
-        soundboxCounts.set(audioNameCss, oldCount - 1);
+        const oldCount = soundboxCounts.get(audioName);
+        soundboxCounts.set(audioName, oldCount - 1);
     };
     soundBox.prepend(xButton);
 
     //adjust sounds count
-    if (!soundboxCounts.has(audioNameCss)) {
-        soundboxCounts.set(audioNameCss, 0);
+    if (!soundboxCounts.has(audioName)) {
+        soundboxCounts.set(audioName, 0);
     }
-    soundboxCounts.set(audioNameCss, soundboxCounts.get(audioNameCss) + 1);
+    soundboxCounts.set(audioName, soundboxCounts.get(audioName) + 1);
 
     return soundBox;
 }
@@ -204,10 +217,22 @@ function getRandomInt(max) {
  */
 function copyURI(event) {
     event.preventDefault();
-    //TODO: calculate counts and return uri
-    //TODO: parse from query string
-    navigator.clipboard.writeText("copied text").then(() => {
-        //copied
+
+    const targetUrlRaw = window.location.href;
+    let targetUrl = targetUrlRaw.replace(/\/+$/, '');   //remove all trailing slashes
+
+    let soundCounts = [];
+    for (let [soundName, count] of soundboxCounts) {
+        soundCounts.push(soundName + "=" + count);
+    }
+
+    targetUrl += "?" + soundCounts.join("&")
+    //such as noisy.com?slack-noise=3&other-noise=2
+
+    navigator.clipboard.writeText(targetUrl).then(() => {
+        //success
+        const shareLinkDiv = document.getElementById("share-link");
+        shareLinkDiv.innerText = `Copied: ${targetUrl}`;
     }, () => {
         //failed
     });
