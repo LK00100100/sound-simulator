@@ -26,18 +26,29 @@
 
     <br><br>
 
+    <label for="sound-preset">Choose Presets:</label>
+    <select name="sound-preset" id="sound-preset">
+        <option value="college-finals">Finals Day at College</option>
+        <option value="work-problem">Problem at work</option>
+        <option value="nyc-gridlock">NYC Gridlock</option>
+    </select>
+    <button id="btn-load-preset" onclick="clickLoadPreset()">⛏️ Load Preset</button>
+
+    <br><br>
+
     <label for="sound-choice">Sound to add:</label>
     <select name="sound-choice" id="sound-choice">
-        <option value="slack message">Slack Message</option>
-        <option value="skype call">Skype Call</option>
-        <option value="ios alarm">iOS Alarm</option>
-        <option value="car horn">Car Horn</option>
+        <option value="slack-message">Slack Message</option>
+        <option value="skype-call">Skype Call</option>
+        <option value="ios-alarm">iOS Alarm</option>
+        <option value="car-horn">Car Horn</option>
     </select>
 
     <br><br>
 
     <button id="btn-add-sound" onclick="clickAddSound()">➕ Add Sound</button>
     <button id="btn-remove-sound" onclick="clickRemoveSound()">➖ Remove Sound</button>
+    <button id="btn-clear-sounds" onclick=" clearAllSounds()">❌ Clear Sounds</button>
 
     <div id="sounds">
     </div>

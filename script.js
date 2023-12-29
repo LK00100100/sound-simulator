@@ -15,8 +15,7 @@ function onload() {
     const soundsDiv = document.getElementById("sounds");
     for (let [audioName, count] of searchParams) {
         for (let i = 0; i < count; i++) {
-            const soundBox = createSoundBox(audioName);
-            soundsDiv.appendChild(soundBox);
+            createAndAppendSoundToSoundbox(audioName);
         }
     }
 
@@ -25,25 +24,21 @@ function onload() {
 const soundboxCounts = new Map();   //sound-name (such as "slack-noise"), count (int)
 
 function initSoundBoxes() {
-    const soundsDiv = document.getElementById("sounds");
-
     //slack sounds
     for (let i = 0; i < 5; i++) {
-        const soundBox = createSoundBox("slack-message");
-        soundsDiv.appendChild(soundBox);
+        createAndAppendSoundToSoundbox("slack-message");
     }
 
     //skype sounds
     for (let i = 0; i < 2; i++) {
-        const soundBox = createSoundBox("skype-call");
-        soundsDiv.appendChild(soundBox);
+        createAndAppendSoundToSoundbox("skype-call");
     }
 
     //ios sounds
-    soundsDiv.appendChild(createSoundBox("ios-alarm"));
+    createAndAppendSoundToSoundbox("ios-alarm");
 
     //car horn sounds
-    soundsDiv.appendChild(createSoundBox("car-horn"));
+    createAndAppendSoundToSoundbox("car-horn");
 }
 
 function clickPlay() {
@@ -78,12 +73,11 @@ function clickAddSound() {
 
     const audioName = getSelectedAudioValue();
 
-    const soundBox = createSoundBox(audioName);
-    soundsDiv.appendChild(soundBox);
+    createAndAppendSoundToSoundbox(audioName);
 }
 
 /**
- * removes a sound box.
+ * removes a sound box. and stops the sound. and adjusts sound counts.
  */
 function clickRemoveSound() {
     const soundsDiv = document.getElementById("sounds");
@@ -133,7 +127,7 @@ function getAudioPath(audioName) {
 }
 
 /**
- * Create a sound box and assigns a sound.
+ * Create a sound box and assigns a sound. Don't forget to append the returned box.
  * @param {string} audioName path of audio file
  * @returns 
  */
@@ -236,4 +230,55 @@ function copyURI(event) {
     }, () => {
         //failed
     });
+}
+
+function clickLoadPreset() {
+    clearAllSounds();
+
+    const presetValue = document.getElementById("sound-preset").value;
+
+    //load preset sounds
+    switch (presetValue) {
+        case "college-finals":
+            for (let i = 0; i < 12; i++) {
+                createAndAppendSoundToSoundbox("ios-alarm");
+            }
+            break;
+        case "work-problem":
+            for (let i = 0; i < 12; i++) {
+                createAndAppendSoundToSoundbox("slack-message");
+            }
+            for (let i = 0; i < 3; i++) {
+                createAndAppendSoundToSoundbox("skype-call");
+            }
+            break;
+        case "nyc-gridlock":
+            for (let i = 0; i < 20; i++) {
+                createAndAppendSoundToSoundbox("car-horn");
+            }
+            break;
+    }
+}
+
+/**
+ * Remove all sound boxes and stops the sounds.
+ */
+function clearAllSounds() {
+    //clear current sound boxes
+    const soundsDiv = document.getElementById("sounds");
+    let numSounds = soundsDiv.children.length;
+    for (let i = 0; i < numSounds; i++) {
+        clickRemoveSound();
+    }
+}
+
+/**
+ * create a soundbox and append to the div "sounds".
+ * @param {string} audioName such as 'slack-message'
+ */
+function createAndAppendSoundToSoundbox(audioName) {
+    const soundsDiv = document.getElementById("sounds");
+
+    const soundBox = createSoundBox(audioName);
+    soundsDiv.appendChild(soundBox);
 }
