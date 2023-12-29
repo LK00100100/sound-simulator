@@ -16,8 +16,13 @@
         This will generate sounds at defined intervals. Press play.
     </p>
 
-    <button id="btn-play" onclick="clickPlay()">Play</button>
-    <button id="btn-stop" onclick="clickStop()">Stop</button>
+    <button id="btn-play" onclick="clickPlay()">▶️ Play</button>
+    <button id="btn-stop" onclick="clickStop()">🛑 Stop</button>
+
+    <br><br>
+
+    <button id="btn-share" onclick="copyURI(event)">🔗 Share</button>
+    <div id="share-link"></div>
 
     <br><br>
 
@@ -31,8 +36,8 @@
 
     <br><br>
 
-    <button id="btn-add-sound" onclick="clickAddSound()">Add Sound</button>
-    <button id="btn-remove-sound" onclick="clickRemoveSound()">Remove Sound</button>
+    <button id="btn-add-sound" onclick="clickAddSound()">➕ Add Sound</button>
+    <button id="btn-remove-sound" onclick="clickRemoveSound()">➖ Remove Sound</button>
 
     <div id="sounds">
     </div>

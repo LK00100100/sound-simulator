@@ -8,6 +8,8 @@ function onload() {
     initSoundBoxes();
 }
 
+const soundboxCounts = new Map();   //sound-name, count
+
 function initSoundBoxes() {
     const soundsDiv = document.getElementById("sounds");
 
@@ -80,6 +82,13 @@ function clickRemoveSound() {
     const intervalId = Number.parseInt(lastChildId.substring(lastChildId.indexOf("-") + 1));
 
     clearInterval(intervalId);
+
+    //adjust soundbox counts
+    const lastChildElement = document.getElementById(lastChildId);
+    const audioName = lastChildElement.classList[1];    //not robust :-/
+
+    const oldCount = soundboxCounts.get(audioName);
+    soundboxCounts.set(audioName, oldCount - 1);
 
     soundsDiv.removeChild(lastChild);
     console.log("interval removed:" + intervalId)
@@ -163,8 +172,18 @@ function createSoundBox(audioName) {
         audioElem.pause();
 
         soundBox.parentElement.removeChild(soundBox);
+
+        //adjust sounds count
+        const oldCount = soundboxCounts.get(audioNameCss);
+        soundboxCounts.set(audioNameCss, oldCount - 1);
     };
     soundBox.prepend(xButton);
+
+    //adjust sounds count
+    if (!soundboxCounts.has(audioNameCss)) {
+        soundboxCounts.set(audioNameCss, 0);
+    }
+    soundboxCounts.set(audioNameCss, soundboxCounts.get(audioNameCss) + 1);
 
     return soundBox;
 }
@@ -177,4 +196,19 @@ function createSoundBox(audioName) {
  */
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
+}
+
+/**
+ * Copy to clipboard.
+ * @param {*} event 
+ */
+function copyURI(event) {
+    event.preventDefault();
+    //TODO: calculate counts and return uri
+    //TODO: parse from query string
+    navigator.clipboard.writeText("copied text").then(() => {
+        //copied
+    }, () => {
+        //failed
+    });
 }
